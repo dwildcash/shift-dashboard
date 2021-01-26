@@ -6,7 +6,6 @@
     string addressSaved = null;
     var controller = ViewContext.RouteData.Values["Controller"];
     var action = ViewContext.RouteData.Values["Action"];
-    string theme = "";
 }
 
 <!DOCTYPE html>
@@ -31,25 +30,15 @@
 
     <!-- Theme style -->
     <link rel="stylesheet" href="@Url.Content("~/css/adminlte.min.css")" />
-
-    @if (ViewBag.Theme == null)
-    {
-        theme = HttpContextAccessor.HttpContext.Request.Cookies["theme"];
-    }
-    else
-    {
-        theme = ViewBag.Theme;
-    }
-
     <link rel="stylesheet" href="@Url.Content("~/css/skin-midnight.min.css")" />
 
+    <!-- jquery -->
     <link rel="stylesheet" href="@Url.Content("~/css/jquery-ui.min.css")" />
 
     <!-- Datatable -->
     <link rel="stylesheet" href="@Url.Content("~/css/dataTables.bootstrap4.css")" />
     <link rel="stylesheet" href="@Url.Content("~/css/responsive.bootstrap4.min.css")" />
     <link rel="stylesheet" href="@Url.Content("~/css/fixedHeader.bootstrap4.min.css")" />
-
 
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -92,16 +81,6 @@
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
-                        <!-- Notifications Dropdown Menu -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" data-toggle="dropdown" href="#">
-                                <i class="fa fa-th-large"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-
-                                <a href="~/Home/Index?theme=white" class="dropdown-item dropdown-footer"><i class="fas fa-object-group mr-2"></i>Switch to White Theme</a>
-                            </div>
-                        </li>
                     </div>
                 </div>
             }
@@ -173,13 +152,13 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="https://wallet.shiftnrg.org/" target="_blank" rel="noopener noreferrer" class="nav-link">
-                                        <i class="fa fa-play-circle nav-icon text-warning"></i>
+                                        <i class="fa fa-play-circle nav-icon text-gree"></i>
                                         <p>Web</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="https://github.com/ShiftNrg/shift-nano/releases/tag/v2.3.0/" target="_blank" rel="noopener noreferrer" class="nav-link">
-                                        <i class="fa fa-play-circle nav-icon text-warning"></i>
+                                        <i class="fa fa-play-circle nav-icon text-green"></i>
                                         <p>Desktop</p>
                                     </a>
                                 </li>
@@ -191,13 +170,13 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="https://explorer.shiftnrg.org/" target="_blank" rel="noopener noreferrer" class="nav-link">
-                                        <i class="fa fa-play-circle nav-icon text-warning"></i>
+                                        <i class="fa fa-play-circle nav-icon text-green"></i>
                                         <p>Explorer</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                    </ul>             
+                    </ul>
                     <!-- Explorer-->
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item has-treeview">
@@ -238,6 +217,15 @@
 
         @RenderBody()
 
+
+
+    <footer class="main-footer">
+        <div class="float-right d-sm-none d-md-block text-sm">
+            <strong>Copyright &copy; 2020&nbsp;<a href="https://explorer.shiftnrg.org/address/5263887536226471487S">Dwildcash </a></strong><a href="/Home/About"><img src="/img/dwildcash.png" height="40" /></a>
+        </div>
+        <br />
+    </footer>
+
         <!-- /.content-wrapper -->
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
@@ -245,13 +233,10 @@
         </aside>
         <!-- /.control-sidebar -->
         <!-- Main Footer -->
-        <footer class="main-footer">
-            <div class="float-left d-sm-none d-md-block text-sm" id="QuoteOfTheDay"></div>
-            <div class="float-right d-sm-none d-md-block text-sm">
-                <strong>Copyright &copy; 2020&nbsp;<a href="https://explorer.shiftnrg.org/address/5263887536226471487S">Dwildcash </a></strong><a href="/Home/About"><img src="@Url.Content("~/img/dwildcash.png")" height="40" /></a>
-            </div>
-        </footer>
     </div>
+
+
+
     <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
     <!-- fontawesome -->
@@ -307,14 +292,6 @@
                 }).css('z-index', 2000);
             }
         });
-        $.ajax({
-            url: '@Url.Action("GetQuoteOfTheDay","Home")',
-            cache: false,
-            success: function (result) {
-                var myhtml = "<small>" + result.contents.quotes[0].quote  + "<cite title=\"Source Title\"> -" + result.contents.quotes[0].author + "</cite></small>";
-                $('#QuoteOfTheDay').html(myhtml);
-            }
-        })
     </script>
 </body>
 </html>
