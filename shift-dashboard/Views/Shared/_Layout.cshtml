@@ -1,5 +1,5 @@
-﻿@inject shift_dashboard.Model.DashboardConfig dashboarconfig
-@using Microsoft.AspNetCore.Identity
+﻿@inject shift_dashboard.Models.DashboardConfig dashboarconfig
+
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
@@ -22,11 +22,13 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="@Url.Content("~/css/all.css")" />
     <link rel="icon" href="@Url.Content("~/img/favicon.ico")" />
+
+
     <!-- IonIcons -->
     <link rel="stylesheet" href="@Url.Content("~/css/ionicons.min.css")" />
 
     <!-- Pace Progressbar-->
-    <link rel="stylesheet" href="@Url.Content("~/css/pace.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/pace-theme-minimal.css")" />
 
     <!-- Theme style -->
     <link rel="stylesheet" href="@Url.Content("~/css/adminlte.min.css")" />
@@ -34,6 +36,7 @@
 
     <!-- jquery -->
     <link rel="stylesheet" href="@Url.Content("~/css/jquery-ui.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/jquery-jvectormap.css")" />
 
     <!-- Datatable -->
     <link rel="stylesheet" href="@Url.Content("~/css/dataTables.bootstrap4.css")" />
@@ -235,10 +238,8 @@
         <!-- Main Footer -->
     </div>
 
-
-
-    <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
+
     <!-- fontawesome -->
     <script src="@Url.Content("~/js/all.js")"></script>
 

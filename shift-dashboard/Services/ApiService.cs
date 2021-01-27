@@ -3,13 +3,13 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using shift_dashboard.Data;
-using shift_dashboard.Model;
+using shift_dashboard.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Delegate = shift_dashboard.Model.Delegate;
+using Delegate = shift_dashboard.Models.Delegate;
 
 namespace shift_dashboard.Services
 {
@@ -26,6 +26,11 @@ namespace shift_dashboard.Services
             _dbcontext = dbcontext;
         }
 
+
+        /// <summary>
+        /// Uodate Delegates Stats
+        /// </summary>
+        /// <returns></returns>
         public async Task<object> UpdateDelegateDb()
         {
             try
@@ -108,9 +113,7 @@ namespace shift_dashboard.Services
         /// <returns></returns>
         public async Task<Delegate[]> GetDelegatesFromDb()
         {
-            return await _dbcontext.Delegates.Include(y=>y.DelegateStats.Where(x=>x.Date >= DateTime.Now.AddMinutes(-45)).OrderByDescending(s=>s.Id).Take(1)).OrderBy(x => x.Rank).ToArrayAsync();
-
-         
+            return await _dbcontext.Delegates.Include(y=>y.DelegateStats.Where(x=>x.Date >= DateTime.Now.AddDays(-1)).OrderByDescending(s=>s.Id)).OrderBy(x => x.Rank).ToArrayAsync();      
         }
 
         /// <summary>

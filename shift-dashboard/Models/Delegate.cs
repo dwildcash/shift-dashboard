@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace shift_dashboard.Model
+namespace shift_dashboard.Models
 {
     [Index(nameof(Address), Name = "Index_Address", IsUnique = true)]
     public partial class Delegate
@@ -63,7 +63,17 @@ namespace shift_dashboard.Model
     {
         public int NbVoters
         {
-            get { return this.DelegateStats.Where(x => x.Date > DateTime.Now.AddMinutes(-100)).FirstOrDefault<DelegateStat>().TotalVoters; }
+            get { return this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderByDescending(p=>p.Date).FirstOrDefault().TotalVoters; }
+        }
+
+        public int Rank24Change
+        {
+            get { return this.Rank - this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().Rank; }
+        }
+
+        public long Votes24Change
+        {
+            get { return (long.Parse(this.Vote) - this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().TotalVotes) / 100000000; }
         }
     }
 

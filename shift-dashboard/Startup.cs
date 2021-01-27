@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 using Quartz;
 using shift_dashboard.Data;
 using shift_dashboard.Jobs;
-using shift_dashboard.Model;
+using shift_dashboard.Models;
 using shift_dashboard.Services;
 using System;
 

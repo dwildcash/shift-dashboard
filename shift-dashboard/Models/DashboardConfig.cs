@@ -1,4 +1,4 @@
-﻿namespace shift_dashboard.Model
+﻿namespace shift_dashboard.Models
 {
     public class DashboardConfig
     {

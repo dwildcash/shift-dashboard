@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace shift_dashboard.Model
+namespace shift_dashboard.Models
 {
     public class DelegateStat
     {

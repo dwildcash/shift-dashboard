@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using shift_dashboard.Model;
+using shift_dashboard.Models;
 
 namespace shift_dashboard.Data
 {

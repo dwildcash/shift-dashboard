@@ -49,7 +49,8 @@ var deps = {
         "/js/fixedHeader.bootstrap4.min.js": "js"
     },
     "pace-js": {
-        "/pace.min.js": "js"
+        "/pace.min.js": "js",
+        "/themes/blue/pace-theme-minimal.css": "css"
     },
     "jquery": {
         "/dist/jquery.min.js": "js"
@@ -83,7 +84,6 @@ gulp.task('clean', function (done) {
         '!wwwroot/js/jquery-jvectormap-world-mill.js',
         '!wwwroot/js/NotificationHub.js',
         '!wwwwroot/js/NotificationUpdateTitle.js',
-        '!wwwroot/css/pace.css',
         '!wwwroot/css/skin-midnight.min.css',
         '!wwwroot/doc/**/*'
     ], done);

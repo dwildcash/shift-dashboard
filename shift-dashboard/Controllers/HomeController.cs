@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using shift_dashboard.Data;
-using shift_dashboard.Model;
 using shift_dashboard.Models;
+using shift_dashboard.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,17 +16,19 @@ namespace shift_dashboard.Controllers
         private DashboardConfig _dashboardOptions;
         private readonly ILogger<HomeController> _logger;
         private DashboardContext _dbcontext;
+        private IApiService _apiService;
 
-        public HomeController(ILogger<HomeController> logger, DashboardConfig dashboardconfig, DashboardContext dbcontext)
+        public HomeController(ILogger<HomeController> logger, DashboardConfig dashboardconfig, DashboardContext dbcontext, IApiService apiService)
         {
             _dashboardOptions = dashboardconfig;
             _logger = logger;
             _dbcontext = dbcontext;
+            _apiService = apiService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View( await _apiService.GetDelegatesFromDb());
         }
 
 

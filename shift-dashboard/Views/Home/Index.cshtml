@@ -1,8 +1,8 @@
-﻿@using System.Net.Sockets
+﻿@using shift_dashboard.Models
 
-@using Microsoft.AspNetCore.Identity
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-@inject shift_dashboard.Model.DashboardConfig dashboardconfig
+@inject shift_dashboard.Models.DashboardConfig dashboardconfig
+@model shift_dashboard.Models.Delegate[]
 
 @{
     ViewData["Title"] = dashboardconfig.ApplicationName;
@@ -11,21 +11,30 @@
 
 <title>@dashboardconfig.ApplicationName</title>
 
-@{
-    string cookieValueFromContext = HttpContextAccessor.HttpContext.Request.Cookies["addr"];
-    string Address = null;
-
-    if (!String.IsNullOrEmpty(ViewBag.SearchText))
+@section Scripts
     {
-        Address = ViewBag.SearchText;
-
-    }
-    else if (cookieValueFromContext != null)
-    {
-        Address = cookieValueFromContext;
-    }
+    <!-- Initialize Data Table-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tdelegates').DataTable({
+                "pageLength": 101,
+                "order": [[0, "asc"]],
+                "autoWidth": true,
+                responsive: {
+                    details: {
+                        type: 'column',
+                        target: -1
+                    }
+                },
+                columnDefs: [{
+                    className: 'control',
+                    orderable: false,
+                    targets: -1
+                }]
+            });
+        });
+    </script>
 }
-
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -48,10 +57,68 @@
     </section>
 
     <section class="content">
+
+        <!-- Start Delegate Table-->
+        <!-- Main content -->
+        <div class="row">
+            <div class="col-12">
+                <div class="box card">
+                    <div class="card-header">
+                        <h3 class="card-title">Shift Delegates</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="tdelegates" class="table display dt-responsive" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th align-middle data-priority="1">Rank</th>
+                                        <th align-middle data-priority="2" class="align-middle">Username</th>
+                                        <th align-middle data-priority="3" class="align-middle">Addresse</th>
+                                        <th align-middle data-priority="4" class="align-middle">NBVoters</th>
+
+                                        <th align-middle data-priority="5" class="align-middle">24H Rank Change</th>
+                                        <th align-middle data-priority="5" class="align-middle">24H Votes Change</th>
+                                        <th align-middle data-priority="0" class="align-middle"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var d in Model)
+                                    {
+                                    <tr>
+                                        <td class="align-middle"><h5><strong>@d.Rank</strong></h5></td>
+                                        <td class="align-middle"><h5><small class="text-muted">@d.Username</small></h5></td>
+                                        <td class="align-middle"><h5><small><span class="text-muted"><a href="https://explorer.shiftnrg.org/address/@d.Address} " target="_blank">@d.Address</a></span></small></h5></td>
+                                        <td class="align-middle"><h5><small class="text-muted">@d.NbVoters</small></h5></td>
+                                        @if (d.Rank24Change >= 0)
+                                        {
+
+                                            <th align-middle data-priority="4" class="align-middle text-success">@d.Rank24Change</th>
+                                        }
+                                        else
+                                        {
+                                            <th align-middle data-priority="4" class="align-middle text-danger">@d.Rank24Change</th>
+                                        }
+                                        @if (d.Votes24Change >= 0)
+                                        {
+                                            <th align-middle data-priority="4" class="align-middle text-success">@d.Votes24Change.ToString("N0")</th>
+                                        }
+                                        else
+                                        {
+                                            <th align-middle data-priority="4" class="align-middle text-danger">@d.Votes24Change.ToString("N0")</th>
+                                        }
+                                        <td></td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- ./Delegate Table-->
     </section>
-
-    <section class="content">
-    </section>
-
-
 </div>
