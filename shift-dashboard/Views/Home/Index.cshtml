@@ -104,7 +104,7 @@
 
                                         @if (d.RankDailyChange >= 0)
                                         {
-                                            <td align-middle class="align-middle text-success">@d.RankDailyChange</td>
+                                            <td align-middle class="align-middle text-muted">@d.RankDailyChange</td>
                                         }
                                         else
                                         {
@@ -121,9 +121,7 @@
                                         }
 
                                         @{
-
                                             long nextrank = 0;
-                                            long previousrank = 0;
 
                                             if (d.Rank == 1)
                                             {
@@ -137,12 +135,10 @@
                                             else if (d.Rank >= 303)
                                             {
                                                 nextrank = (long.Parse(GetDelegateByRank(d.Rank - 1).Vote) - long.Parse(d.Vote)) / 100000000;
-
                                             }
-
                                         }
 
-                                        <td align-middle class="align-middle text-green">@nextrank.ToString("N0")</td>
+                                        <td align-middle class="align-middle text-muted">@nextrank.ToString("N0")</td>
                                         <td></td>
                                     </tr>
                                     }
