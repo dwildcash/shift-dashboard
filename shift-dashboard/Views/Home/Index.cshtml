@@ -100,7 +100,6 @@
                                         <td class="align-middle"><h5><small class="text-muted">@d.Username</small></h5></td>
                                         <td class="align-middle"><h5><small><span class="text-muted"><a href="https://explorer.shiftnrg.org/address/@d.Address} " target="_blank">@d.Address</a></span></small></h5></td>
                                         <td class="align-middle"><h5><small class="text-muted">@d.NbVoters</small></h5></td>
-
                                         <td class="align-middle"><h5><small class="text-muted">@((long.Parse(d.Vote) / 100000000).ToString("N0"))</small></h5></td>
 
                                         @if (d.RankDailyChange >= 0)
@@ -132,12 +131,12 @@
                                             }
                                             else if (d.Rank > 1 && d.Rank <= 303)
                                             {
-                                                var b = GetDelegateByRank(d.Rank + 1);
-                                                nextrank = (long.Parse(GetDelegateByRank(d.Rank - 1).Vote) - long.Parse(d.Vote)) / 1000000000;
+                                                var b = GetDelegateByRank(d.Rank + 1);                                             
+                                                nextrank = (long.Parse(GetDelegateByRank(d.Rank - 1).Vote) - long.Parse(d.Vote)) / 100000000;
                                             }
                                             else if (d.Rank >= 303)
                                             {
-                                                nextrank = (long.Parse(GetDelegateByRank(d.Rank - 1).Vote) - long.Parse(d.Vote)) / 1000000000;
+                                                nextrank = (long.Parse(GetDelegateByRank(d.Rank - 1).Vote) - long.Parse(d.Vote)) / 100000000;
 
                                             }
 
