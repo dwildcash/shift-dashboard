@@ -130,10 +130,10 @@ namespace shift_dashboard.Services
                     var result = JObject.Parse(await hc.GetStringAsync(_dashboardOptions.APIUrl + "/api/delegates"));
                     var delegateResult = JsonConvert.DeserializeObject<DelegateApiResult>(result.ToString());
 
-                    var result102to203 = JObject.Parse(await hc.GetStringAsync(_dashboardOptions.APIUrl + "/api/delegates?offset=102"));
+                    var result102to203 = JObject.Parse(await hc.GetStringAsync(_dashboardOptions.APIUrl + "/api/delegates?offset=101"));
                     var delegate102to203 = JsonConvert.DeserializeObject<DelegateApiResult>(result102to203.ToString());
 
-                    var result204to305 = JObject.Parse(await hc.GetStringAsync(_dashboardOptions.APIUrl + "/api/delegates?offset=204"));
+                    var result204to305 = JObject.Parse(await hc.GetStringAsync(_dashboardOptions.APIUrl + "/api/delegates?offset=203"));
                     var delegate204to305 = JsonConvert.DeserializeObject<DelegateApiResult>(result204to305.ToString());
 
                     
