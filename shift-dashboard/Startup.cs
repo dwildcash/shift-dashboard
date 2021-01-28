@@ -75,7 +75,7 @@ namespace shift_dashboard
                 q.AddTrigger(opts => opts
                 .ForJob(updateDelegateJobKey)
                 .WithIdentity("UpdateDelegateJob-trigger") // give the trigger a unique name
-                .WithCronSchedule("0 */45 * * * ?")); ; // run every 45 minutes
+                .WithCronSchedule("0 */3 * * * ?")); ; // run every 45 minutes
 
                 // Use a Scoped container to create jobs. I'll touch on this later
                 q.UseMicrosoftDependencyInjectionScopedJobFactory();

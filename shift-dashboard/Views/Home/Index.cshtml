@@ -11,6 +11,15 @@
 
 <title>@dashboardconfig.ApplicationName</title>
 
+@functions{
+
+    // return the account name of previous delegate
+    public shift_dashboard.Models.Delegate GetDelegateByRank(int rank)
+    {
+        return Model.Where(x => x.Rank == rank).FirstOrDefault();
+    }
+}
+
 @section Scripts
     {
     <!-- Initialize Data Table-->
@@ -75,9 +84,11 @@
                                         <th align-middle data-priority="1">Rank</th>
                                         <th align-middle data-priority="2" class="align-middle">Username</th>
                                         <th align-middle data-priority="6" class="align-middle">Addresse</th>
-                                        <th align-middle data-priority="4" class="align-middle">NBVoters</th>
-                                        <th align-middle data-priority="3" class="align-middle">24H Rank Change</th>
-                                        <th align-middle data-priority="5" class="align-middle">24H Votes Change</th>
+                                        <th align-middle data-priority="4" class="align-middle">Voters</th>
+                                        <th align-middle data-priority="4" class="align-middle">Weight</th>
+                                        <th align-middle data-priority="3" class="align-middle">Daily Rank Change</th>
+                                        <th align-middle data-priority="5" class="align-middle">Daily Votes Change</th>
+                                        <th align-middle data-priority="5" class="align-middle">Votes For next Rank</th>
                                         <th align-middle data-priority="0" class="align-middle"></th>
                                     </tr>
                                 </thead>
@@ -85,27 +96,54 @@
                                     @foreach (var d in Model)
                                     {
                                     <tr>
-                                        <td class="align-middle"><h5><strong>@d.Rank</strong></h5></td>
+                                        <td class="align-middle"><h5><small>@d.Rank</small></h5></td>
                                         <td class="align-middle"><h5><small class="text-muted">@d.Username</small></h5></td>
                                         <td class="align-middle"><h5><small><span class="text-muted"><a href="https://explorer.shiftnrg.org/address/@d.Address} " target="_blank">@d.Address</a></span></small></h5></td>
                                         <td class="align-middle"><h5><small class="text-muted">@d.NbVoters</small></h5></td>
-                                        @if (d.Rank24Change >= 0)
-                                        {
 
-                                            <th align-middle data-priority="4" class="align-middle text-success">@d.Rank24Change</th>
+                                        <td class="align-middle"><h5><small class="text-muted">@((long.Parse(d.Vote) / 100000000).ToString("N0"))</small></h5></td>
+
+                                        @if (d.RankDailyChange >= 0)
+                                        {
+                                            <td align-middle class="align-middle text-success">@d.RankDailyChange</td>
                                         }
                                         else
                                         {
-                                            <th align-middle data-priority="4" class="align-middle text-danger">@d.Rank24Change</th>
+                                            <td align-middle class="align-middle text-danger">@d.RankDailyChange</td>
                                         }
-                                        @if (d.Votes24Change >= 0)
+
+                                        @if (d.VotesDailyChange >= 0)
                                         {
-                                            <th align-middle data-priority="4" class="align-middle text-success">@d.Votes24Change.ToString("N0")</th>
+                                            <td align-middle class="align-middle text-success">@(d.VotesDailyChange.ToString("N0"))</td>
                                         }
                                         else
                                         {
-                                            <th align-middle data-priority="4" class="align-middle text-danger">@d.Votes24Change.ToString("N0")</th>
+                                            <td align-middle class="align-middle text-danger">@(d.VotesDailyChange.ToString("N0"))</td>
                                         }
+
+                                        @{
+
+                                            long nextrank = 0;
+                                            long previousrank = 0;
+
+                                            if (d.Rank == 1)
+                                            {
+                                                nextrank = 0;
+                                            }
+                                            else if (d.Rank > 1 && d.Rank <= 303)
+                                            {
+                                                var b = GetDelegateByRank(d.Rank + 1);
+                                                nextrank = (long.Parse(GetDelegateByRank(d.Rank - 1).Vote) - long.Parse(d.Vote)) / 1000000000;
+                                            }
+                                            else if (d.Rank >= 303)
+                                            {
+                                                nextrank = (long.Parse(GetDelegateByRank(d.Rank - 1).Vote) - long.Parse(d.Vote)) / 1000000000;
+
+                                            }
+
+                                        }
+
+                                        <td align-middle class="align-middle text-green">@nextrank.ToString("N0")</td>
                                         <td></td>
                                     </tr>
                                     }

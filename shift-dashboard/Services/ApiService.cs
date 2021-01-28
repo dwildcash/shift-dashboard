@@ -137,7 +137,7 @@ namespace shift_dashboard.Services
                     var delegate204to305 = JsonConvert.DeserializeObject<DelegateApiResult>(result204to305.ToString());
 
                     
-                    // Comvine all the Delegates in Response
+                    // Combine all the Delegates from Response
 
                     foreach (var o in delegate102to203.Delegates)
                     {
@@ -149,7 +149,6 @@ namespace shift_dashboard.Services
                         delegateResult.Delegates.Add(o);
                     }
                   
-
                     return delegateResult.Success && delegate102to203.Success && delegate204to305.Success ? delegateResult.Delegates : null;
                 }
             }
