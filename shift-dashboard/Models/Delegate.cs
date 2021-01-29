@@ -66,6 +66,13 @@ namespace shift_dashboard.Models
             get { return this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderByDescending(p=>p.Date).FirstOrDefault().TotalVoters; }
         }
 
+        public int VotersDailyChange
+        {
+            get {
+
+                return this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().TotalVoters - this.NbVoters; }
+        }
+
         public int RankDailyChange
         {
             get { return this.Rank - this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().Rank; }
