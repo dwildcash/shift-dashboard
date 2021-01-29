@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using static shift_dashboard.Models.Delegate;
 using Delegate = shift_dashboard.Models.Delegate;
 
 namespace shift_dashboard.Services

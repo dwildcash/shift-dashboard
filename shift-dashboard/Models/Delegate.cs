@@ -63,7 +63,8 @@ namespace shift_dashboard.Models
     {
         public int NbVoters
         {
-            get {
+            get
+            {
                 try
                 {
                     return this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderByDescending(p => p.Date).FirstOrDefault().TotalVoters;
@@ -81,7 +82,7 @@ namespace shift_dashboard.Models
             {
                 try
                 {
-                    return this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().TotalVoters - this.NbVoters; 
+                    return this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().TotalVoters - this.NbVoters;
                 }
                 catch (Exception e)
                 {
@@ -90,28 +91,46 @@ namespace shift_dashboard.Models
             }
         }
 
-
         public int RankDailyChange
         {
-            get { return this.Rank - this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().Rank; }
+            get
+            {
+                try
+                {
+                    return this.Rank - this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().Rank;
+                }
+                catch (Exception e)
+                {
+                    return 0;
+                }
+            }
         }
 
         public long VotesDailyChange
         {
-            get { return (long.Parse(this.Vote) - this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().TotalVotes) / 100000000; }
+            get
+            {
+                try
+                {
+                    return (long.Parse(this.Vote) - this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().TotalVotes) / 100000000;
+                }
+                catch (Exception e)
+                {
+                    return 0;
+                }
+            }
         }
 
-    }
+        public class DelegateApiResult
+        {
+            [JsonProperty("success")]
+            public bool Success { get; set; }
 
-    public class DelegateApiResult
-    {
-        [JsonProperty("success")]
-        public bool Success { get; set; }
+            [JsonProperty("delegates")]
+            public List<Delegate> Delegates { get; set; }
 
-        [JsonProperty("delegates")]
-        public List<Delegate> Delegates { get; set; }
-
-        [JsonProperty("totalCount")]
-        public int TotalCount { get; set; }
+            [JsonProperty("totalCount")]
+            public int TotalCount { get; set; }
+        }
     }
 }
