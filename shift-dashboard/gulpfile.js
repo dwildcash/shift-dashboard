@@ -30,23 +30,10 @@ var deps = {
         "/dist/fonts/*": "fonts",
         "/dist/css/ionicons.min.css": "css"
     },
-    "datatables.net": {
-        "/js/*": "js"
-    },
-    "datatables.net-bs4": {
-        "/js/*": "js",
-        "/css/*": "css"
-    },
-    "datatables.net-responsive-bs4": {
-        "/css/*": "css",
-        "/js/*": "js"
-    },
-    "datatables.net-responsive": {
-        "/js/*": "js"
-    },
-    "datatables.net-fixedheader-bs4": {
-        "/css/fixedHeader.bootstrap4.min.css": "css",
-        "/js/fixedHeader.bootstrap4.min.js": "js"
+    "bootstrap-table": {
+        "/dist/bootstrap-table.min.js": "js",
+        "/dist/extensions/mobile/bootstrap-table-mobile.js": "js",
+        "/dist/bootstrap-table.css": "css"
     },
     "pace-js": {
         "/pace.min.js": "js",
@@ -63,10 +50,6 @@ var deps = {
     },
     "jquery-ui-touch-punch": {
         "jquery.ui.touch-punch.min.js": "js"
-    },
-    "jvectormap-next": {
-        "/jquery-jvectormap.min.js": "js",
-        "/jquery-jvectormap.css": "css"
     },
     "jquery-ui-dist": {
         "/jquery-ui.min.js": "js",
