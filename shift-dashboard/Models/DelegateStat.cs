@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace shift_dashboard.Models
 {
+    [Index(nameof(Date), Name = "Index_Date", IsUnique = false)]
     public class DelegateStat
     {
         public int Id { get; set; }

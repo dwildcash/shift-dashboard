@@ -57,6 +57,8 @@
                         <div class="table-responsive">
                             <table data-toggle="table"
                                    data-search="true"
+                                   data-pagination="true"
+                                   data-page-Size="101"
                                    data-show-columns="true">
                                 <thead>
                                     <tr>
@@ -74,15 +76,19 @@
                                     {
                                         <tr>
                                             <td class="align-middle">
-                                                <h6><span class="badge badge-primary">@d.Rank </span></h6>
-                                                @if (d.RankDailyChange > 0)
-                                                {
-                                                    <small class="badge badge-success"> +@d.RankDailyChange</small>
-                                                }
-                                                else if (d.RankDailyChange < 0)
-                                                {
-                                                    <small class="badge badge-danger"> -@d.RankDailyChange</small>
-                                                }
+                                                <h6>
+                                                    <span class="badge badge-primary">
+                                                        @d.Rank &nbsp; &nbsp;
+                                                    @if (d.RankDailyChange > 0)
+                                                    {
+                                                        <small class="badge badge-success"> +@d.RankDailyChange</small>
+                                                    }
+                                                    else if (d.RankDailyChange < 0)
+                                                    {
+                                                        <small class="badge badge-danger"> -@d.RankDailyChange</small>
+                                                    }
+                                                </span>
+                                            </h6>
                                             </td>
                                             <td class="align-middle"><h5><small class="text-muted"><a href="https://explorer.shiftnrg.org/address/@d.Address" target="_blank">@d.Username</a></small></h5></td>
                                             <td class="align-middle">
@@ -110,20 +116,24 @@
 
                                             @{
                                                 long nextrank = 0;
+                                                var PreviousDelegate = GetDelegateByRank(d.Rank - 1);
+
+                                                long PreviousDelegateVotes = 0;
+
+                                                if (PreviousDelegate != null)
+                                                {
+                                                    PreviousDelegateVotes = long.Parse(PreviousDelegate.Vote);
+                                                }
 
                                                 if (d.Rank == 1)
                                                 {
                                                     nextrank = 0;
                                                 }
-                                                else if (d.Rank > 1 && d.Rank <= 303)
+                                                else if (d.Rank > 1 )
                                                 {
-                                                    var b = GetDelegateByRank(d.Rank + 1);
-                                                    nextrank = (long.Parse(GetDelegateByRank(d.Rank - 1).Vote) - long.Parse(d.Vote)) / 100000000;
+                                                    nextrank = (PreviousDelegateVotes - long.Parse(d.Vote)) / 100000000;
                                                 }
-                                                else if (d.Rank >= 303)
-                                                {
-                                                    nextrank = (long.Parse(GetDelegateByRank(d.Rank - 1).Vote) - long.Parse(d.Vote)) / 100000000;
-                                                }
+                                
                                             }
 
                                             <td align-middle class="align-middle text-muted">@nextrank.ToString("N0")</td>

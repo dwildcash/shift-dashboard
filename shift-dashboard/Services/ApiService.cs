@@ -136,8 +136,7 @@ namespace shift_dashboard.Services
 
                     var result204to305 = JObject.Parse(await hc.GetStringAsync(_dashboardOptions.APIUrl + "/api/delegates?offset=203"));
                     var delegate204to305 = JsonConvert.DeserializeObject<DelegateApiResult>(result204to305.ToString());
-
-                    
+                 
                     // Combine all the Delegates from Response
 
                     foreach (var o in delegate102to203.Delegates)

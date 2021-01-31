@@ -54,6 +54,8 @@ namespace shift_dashboard.Models
         [JsonProperty("productivity")]
         public double Productivity { get; set; }
 
+        public int PoolShare { get; set; }
+
         public DateTime Date { get; set; }
 
         public virtual ICollection<DelegateStat> DelegateStats { get; set; }
@@ -61,13 +63,37 @@ namespace shift_dashboard.Models
 
     public partial class Delegate
     {
+        private IEnumerable<DelegateStat> DailyDelegateStats
+        {
+            get
+            {
+                try
+                {
+                    DateTime StatsDate = DateTime.Now.AddMinutes(-5);
+
+                    return this.DelegateStats.Where(x => x.Date >= StatsDate).OrderBy(p => p.Date) ?? null;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+            }
+        }
+
         public int NbVoters
         {
             get
             {
                 try
                 {
-                    return this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderByDescending(p => p.Date).FirstOrDefault().TotalVoters;
+                    if (this.DailyDelegateStats != null && this.DailyDelegateStats.Any())
+                    {
+                        return this.DailyDelegateStats.OrderByDescending(p => p.Date).FirstOrDefault().TotalVoters;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -82,7 +108,14 @@ namespace shift_dashboard.Models
             {
                 try
                 {
-                    return this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().TotalVoters - this.NbVoters;
+                    if (this.DailyDelegateStats != null && this.DailyDelegateStats.Any())
+                    {
+                        return this.DailyDelegateStats.FirstOrDefault().TotalVoters - this.NbVoters;
+                    }
+                    else
+                    {
+                        return this.NbVoters;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -97,7 +130,14 @@ namespace shift_dashboard.Models
             {
                 try
                 {
-                    return this.Rank - this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().Rank;
+                    if (this.DailyDelegateStats != null && this.DailyDelegateStats.Any())
+                    {
+                        return this.Rank - this.DailyDelegateStats.FirstOrDefault().Rank;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -112,7 +152,14 @@ namespace shift_dashboard.Models
             {
                 try
                 {
-                    return (long.Parse(this.Vote) - this.DelegateStats.Where(x => x.Date >= DateTime.Now.AddDays(-1)).OrderBy(p => p.Date).FirstOrDefault().TotalVotes) / 100000000;
+                    if (this.DailyDelegateStats != null && this.DailyDelegateStats.Any())
+                    {
+                        return (long.Parse(this.Vote) - this.DailyDelegateStats.FirstOrDefault().TotalVotes) / 100000000;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
                 catch (Exception e)
                 {
