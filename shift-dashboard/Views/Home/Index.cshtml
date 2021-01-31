@@ -21,16 +21,20 @@
 }
 
 @section Scripts
-    {
+{
 
 }
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h4>Dashboard version 0.2</h4>
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -58,8 +62,9 @@
                             <table data-toggle="table"
                                    data-search="true"
                                    data-pagination="true"
-                                   data-page-Size="101"
-                                   data-show-columns="true">
+                                   data-page-Size="25"
+                                   data-show-columns="true"
+                                   data-mobile-responsive="true">
                                 <thead>
                                     <tr>
                                         <th align-middle>Rank</th>
@@ -68,7 +73,7 @@
                                         <th align-middle class="align-middle">Weight</th>
                                         <th align-middle class="align-middle">Daily Votes Change</th>
                                         <th align-middle class="align-middle">Votes For next Rank</th>
-                                        <th align-middle class="align-middle"></th>
+                                        <th align-middle class="align-middle">Share</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -77,33 +82,33 @@
                                         <tr>
                                             <td class="align-middle">
                                                 <h6>
-                                                    <span class="badge badge-primary">
-                                                        @d.Rank &nbsp; &nbsp;
+                                                    @d.Rank &nbsp; &nbsp;
                                                     @if (d.RankDailyChange > 0)
                                                     {
-                                                        <small class="badge badge-success"> +@d.RankDailyChange</small>
+                                                        <small class="badge badge-success">+@d.RankDailyChange</small>
                                                     }
                                                     else if (d.RankDailyChange < 0)
                                                     {
-                                                        <small class="badge badge-danger"> -@d.RankDailyChange</small>
+                                                        <small class="badge badge-danger">@d.RankDailyChange</small>
                                                     }
-                                                </span>
-                                            </h6>
+                                                </h6>
                                             </td>
-                                            <td class="align-middle"><h5><small class="text-muted"><a href="https://explorer.shiftnrg.org/address/@d.Address" target="_blank">@d.Username</a></small></h5></td>
+                                            <td class="align-middle"><h6><a href="https://explorer.shiftnrg.org/address/@d.Address" target="_blank">@d.Username</a></h6></td>
                                             <td class="align-middle">
-                                                <h5><small class="text-muted">@d.NbVoters</small></h5>
+                                                <h6>
+                                                    @d.NbVoters
 
-                                                @if (d.VotersDailyChange > 0)
-                                                {
-                                                    <small class="badge badge-success">+@d.VotersDailyChange</small>
-                                                }
-                                                else if (d.VotersDailyChange < 0)
-                                                {
-                                                    <small class="badge badge-danger">-@d.VotersDailyChange</small>
-                                                }
+                                                    @if (d.VotersDailyChange > 0)
+                                                    {
+                                                        <small class="badge badge-success">+@d.VotersDailyChange</small>
+                                                    }
+                                                    else if (d.VotersDailyChange < 0)
+                                                    {
+                                                        <small class="badge badge-danger">@d.VotersDailyChange</small>
+                                                    }
+                                                </h6>
                                             </td>
-                                            <td class="align-middle"><h5><small class="text-muted">@((long.Parse(d.Vote) / 100000000).ToString("N0"))</small></h5></td>
+                                            <td class="align-middle"><h6>@((long.Parse(d.Vote) / 100000000).ToString("N0")) <small class="text-muted"> (@d.Approval%)</small></h6></td>
 
                                             @if (d.VotesDailyChange >= 0)
                                             {
@@ -129,15 +134,14 @@
                                                 {
                                                     nextrank = 0;
                                                 }
-                                                else if (d.Rank > 1 )
+                                                else if (d.Rank > 1)
                                                 {
                                                     nextrank = (PreviousDelegateVotes - long.Parse(d.Vote)) / 100000000;
                                                 }
-                                
                                             }
 
                                             <td align-middle class="align-middle text-muted">@nextrank.ToString("N0")</td>
-                                            <td></td>
+                                            <td align-middle class="align-middle text-muted">0</td>
                                         </tr>
                                     }
                                 </tbody>

@@ -69,7 +69,7 @@ namespace shift_dashboard.Models
             {
                 try
                 {
-                    DateTime StatsDate = DateTime.Now.AddMinutes(-5);
+                    DateTime StatsDate = DateTime.Now.AddMinutes(-60);
 
                     return this.DelegateStats.Where(x => x.Date >= StatsDate).OrderBy(p => p.Date) ?? null;
                 }
@@ -95,7 +95,7 @@ namespace shift_dashboard.Models
                         return 0;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     return 0;
                 }
@@ -108,7 +108,7 @@ namespace shift_dashboard.Models
             {
                 try
                 {
-                    if (this.DailyDelegateStats != null && this.DailyDelegateStats.Any())
+                    if (this.DailyDelegateStats.Any())
                     {
                         return this.DailyDelegateStats.FirstOrDefault().TotalVoters - this.NbVoters;
                     }
@@ -117,7 +117,7 @@ namespace shift_dashboard.Models
                         return this.NbVoters;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     return 0;
                 }
@@ -130,7 +130,7 @@ namespace shift_dashboard.Models
             {
                 try
                 {
-                    if (this.DailyDelegateStats != null && this.DailyDelegateStats.Any())
+                    if (this.DailyDelegateStats.Any())
                     {
                         return this.Rank - this.DailyDelegateStats.FirstOrDefault().Rank;
                     }
@@ -139,7 +139,7 @@ namespace shift_dashboard.Models
                         return 0;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     return 0;
                 }
@@ -152,7 +152,7 @@ namespace shift_dashboard.Models
             {
                 try
                 {
-                    if (this.DailyDelegateStats != null && this.DailyDelegateStats.Any())
+                    if (this.DailyDelegateStats.Any())
                     {
                         return (long.Parse(this.Vote) - this.DailyDelegateStats.FirstOrDefault().TotalVotes) / 100000000;
                     }
@@ -161,7 +161,7 @@ namespace shift_dashboard.Models
                         return 0;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     return 0;
                 }
