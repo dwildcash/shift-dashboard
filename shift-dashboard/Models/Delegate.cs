@@ -69,7 +69,7 @@ namespace shift_dashboard.Models
             {
                 try
                 {
-                    DateTime StatsDate = DateTime.Now.AddMinutes(-60);
+                    DateTime StatsDate = DateTime.Now.AddDays(-1);
 
                     return this.DelegateStats.Where(x => x.Date >= StatsDate).OrderBy(p => p.Date) ?? null;
                 }
