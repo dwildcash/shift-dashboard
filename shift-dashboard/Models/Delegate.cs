@@ -110,7 +110,7 @@ namespace shift_dashboard.Models
                 {
                     if (this.DailyDelegateStats.Any())
                     {
-                        return this.DailyDelegateStats.FirstOrDefault().TotalVoters - this.NbVoters;
+                        return this.NbVoters - this.DailyDelegateStats.FirstOrDefault().TotalVoters ;
                     }
                     else
                     {
