@@ -66,9 +66,9 @@
                                 <ul class="list-group">
                                     @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersGainer))
                                     {
-                                    <li class="list-group-item">
-                                        <small class="badge badge-success">@del.Rank</small>&nbsp;&nbsp;@del.Username
-                                    </li>
+                                        <li class="list-group-item">
+                                            <small class="badge badge-success">@del.Rank</small>&nbsp;&nbsp;@del.Username
+                                        </li>
                                     }
                                 </ul>
                             }
@@ -93,9 +93,9 @@
                                 <ul class="list-group">
                                     @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersLooser))
                                     {
-                                    <li class="list-group-item">
-                                        <small class="badge badge-danger">@del.Rank</small>&nbsp;&nbsp;@del.Username
-                                    </li>
+                                        <li class="list-group-item">
+                                            <small class="badge badge-danger">@del.Rank</small>&nbsp;&nbsp;@del.Username
+                                        </li>
                                     }
                                 </ul>
                             }
@@ -120,9 +120,9 @@
                                 <ul class="list-group">
                                     @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesGainer))
                                     {
-                                    <li class="list-group-item">
-                                        <small class="badge badge-success">@del.Rank</small>&nbsp;&nbsp;@del.Username
-                                    </li>
+                                        <li class="list-group-item">
+                                            <small class="badge badge-success">@del.Rank</small>&nbsp;&nbsp;@del.Username
+                                        </li>
                                     }
                                 </ul>
                             }
@@ -149,9 +149,9 @@
                                 <ul class="list-group">
                                     @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesLooser))
                                     {
-                                    <li class="list-group-item">
-                                        <small class="badge badge-danger">@del.Rank</small>&nbsp;&nbsp;@del.Username
-                                    </li>
+                                        <li class="list-group-item">
+                                            <small class="badge badge-danger">@del.Rank</small>&nbsp;&nbsp;@del.Username
+                                        </li>
                                     }
                                 </ul>
                             }
@@ -189,74 +189,84 @@
                                         <th align-middle class="align-middle">Weight</th>
                                         <th align-middle class="align-middle">Daily Votes Change</th>
                                         <th align-middle class="align-middle">Votes For next Rank</th>
+                                        <th align-middle class="align-middle">Uptime</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var d in Model)
                                     {
-                                        <tr>
-                                            <td class="align-middle">
-                                                <h6>
-                                                    @d.Rank &nbsp; &nbsp;
-                                                    @if (d.RankDailyChange > 0)
-                                                    {
-                                                        <small class="badge badge-success">+@d.RankDailyChange</small>
-                                                    }
-                                                    else if (d.RankDailyChange < 0)
-                                                    {
-                                                        <small class="badge badge-danger">@d.RankDailyChange</small>
-                                                    }
-                                                </h6>
-                                            </td>
-                                            <td class="align-middle"><h6><a href="https://explorer.shiftnrg.org/address/@d.Address" target="_blank">@d.Username</a></h6></td>
-                                            <td class="align-middle">
-                                                <h6>
-                                                    @d.NbVoters
+                                    <tr>
+                                        <td class="align-middle">
+                                            <h6>
+                                                @d.Rank &nbsp; &nbsp;
+                                                @if (d.RankDailyChange > 0)
+                                                {
+                                                    <small class="badge badge-danger">+@d.RankDailyChange</small>
+                                                }
+                                                else if (d.RankDailyChange < 0)
+                                                {
+                                                    <small class="badge badge-success">@d.RankDailyChange</small>
+                                                }
+                                            </h6>
+                                        </td>
+                                        <td class="align-middle"><h6><a href="https://explorer.shiftnrg.org/address/@d.Address" target="_blank">@d.Username</a></h6></td>
+                                        <td class="align-middle">
+                                            <h6>
+                                                @d.NbVoters
 
-                                                    @if (d.VotersDailyChange > 0)
-                                                    {
-                                                        <small class="badge badge-success">+@d.VotersDailyChange</small>
-                                                    }
-                                                    else if (d.VotersDailyChange < 0)
-                                                    {
-                                                        <small class="badge badge-danger">@d.VotersDailyChange</small>
-                                                    }
-                                                </h6>
-                                            </td>
-                                            <td class="align-middle"><h6>@((long.Parse(d.Vote) / 100000000).ToString("N0")) <small class="text-muted"> (@d.Approval%)</small></h6></td>
+                                                @if (d.VotersDailyChange > 0)
+                                                {
+                                                    <small class="badge badge-success">+@d.VotersDailyChange</small>
+                                                }
+                                                else if (d.VotersDailyChange < 0)
+                                                {
+                                                    <small class="badge badge-danger">@d.VotersDailyChange</small>
+                                                }
+                                            </h6>
+                                        </td>
+                                        <td class="align-middle"><h6>@((long.Parse(d.Vote) / 100000000).ToString("N0")) <small class="text-muted"> (@d.Approval%)</small></h6></td>
 
-                                            @if (d.VotesDailyChange >= 0)
+                                        @if (d.VotesDailyChange >= 0)
+                                        {
+                                            <td align-middle class="align-middle text-success">@(d.VotesDailyChange.ToString("N0"))</td>
+                                        }
+                                        else
+                                        {
+                                            <td align-middle class="align-middle text-danger">@(d.VotesDailyChange.ToString("N0"))</td>
+                                        }
+
+                                        @{
+                                            long nextrank = 0;
+                                            var PreviousDelegate = GetDelegateByRank(d.Rank - 1);
+
+                                            long PreviousDelegateVotes = 0;
+
+                                            if (PreviousDelegate != null)
                                             {
-                                                <td align-middle class="align-middle text-success">@(d.VotesDailyChange.ToString("N0"))</td>
+                                                PreviousDelegateVotes = long.Parse(PreviousDelegate.Vote);
                                             }
-                                            else
+
+                                            if (d.Rank == 1)
                                             {
-                                                <td align-middle class="align-middle text-danger">@(d.VotesDailyChange.ToString("N0"))</td>
+                                                nextrank = 0;
                                             }
-
-                                            @{
-                                                long nextrank = 0;
-                                                var PreviousDelegate = GetDelegateByRank(d.Rank - 1);
-
-                                                long PreviousDelegateVotes = 0;
-
-                                                if (PreviousDelegate != null)
-                                                {
-                                                    PreviousDelegateVotes = long.Parse(PreviousDelegate.Vote);
-                                                }
-
-                                                if (d.Rank == 1)
-                                                {
-                                                    nextrank = 0;
-                                                }
-                                                else if (d.Rank > 1)
-                                                {
-                                                    nextrank = (PreviousDelegateVotes - long.Parse(d.Vote)) / 100000000;
-                                                }
+                                            else if (d.Rank > 1)
+                                            {
+                                                nextrank = (PreviousDelegateVotes - long.Parse(d.Vote)) / 100000000;
                                             }
+                                        }
 
-                                            <td align-middle class="align-middle text-muted">@nextrank.ToString("N0")</td>
-                                        </tr>
+                                        <td align-middle class="align-middle text-muted">@nextrank.ToString("N0")</td>
+
+                                        @if (d.Productivity > 98)
+                                        {
+                                            <td align-middle class="align-middle text-muted">@d.Productivity%</td>
+                                        }
+                                        else
+                                        {
+                                            <td align-middle class="align-middle text-muted text-warning">@d.Productivity%</td>
+                                        }
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
