@@ -21,10 +21,10 @@
 }
 
 @{
-    var TopVotersGainer = Model.OrderByDescending(x => x.VotersDailyChange).FirstOrDefault();
-    var TopVotersLooser = Model.OrderBy(x => x.VotersDailyChange).FirstOrDefault();
-    var TopVotesGainer = Model.OrderByDescending(x => x.VotesDailyChange).FirstOrDefault();
-    var TopVotesLooser = Model.OrderBy(x => x.VotesDailyChange).FirstOrDefault();
+    var TopVotersGainer = Model.Max(x => x.VotersDailyChange);
+    var TopVotersLooser = Model.Min(x => x.VotersDailyChange);
+    var TopVotesGainer = Model.Max(x => x.VotesDailyChange);
+    var TopVotesLooser = Model.Min(x => x.VotesDailyChange);
 }
 
 <!-- Content Wrapper. Contains page content -->
@@ -54,11 +54,24 @@
                     <div class="card-body">
                         <p class="text-muted mb-2">Biggest Gain of Voters</p>
                         <div class="d-flex align-items-center">
-                            <h1 class="font-weight-medium mb-2 text-success">@TopVotersGainer.VotersDailyChange</h1>
+                            <h1 class="font-weight-medium mb-2 text-success">@TopVotersGainer</h1>
                         </div>
                         <div class="d-flex align-items-center">
-                            <div class="bg-success dot-indicator"></div>
-                            <p class="text-muted mb-0">@TopVotersGainer.Username</p>
+                            @if (TopVotersGainer == 0)
+                            {
+                                <p class="text-muted mb-0">No gainer!</p>
+                            }
+                            else
+                            {
+                                <ul class="list-group">
+                                    @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersGainer))
+                                    {
+                                    <li class="list-group-item">
+                                        <small class="badge badge-success">@del.Rank</small>&nbsp;&nbsp;@del.Username
+                                    </li>
+                                    }
+                                </ul>
+                            }
                         </div>
                     </div>
                 </div>
@@ -68,11 +81,24 @@
                     <div class="card-body">
                         <p class="text-muted mb-2">Biggest Loss of Voters</p>
                         <div class="d-flex align-items-center">
-                            <h1 class="font-weight-medium mb-2 text-danger">@TopVotersLooser.VotersDailyChange</h1>
+                            <h1 class="font-weight-medium mb-2 text-danger">@TopVotersLooser</h1>
                         </div>
                         <div class="d-flex align-items-center">
-                            <div class="bg-success dot-indicator"></div>
-                            <p class="text-muted mb-0">@TopVotersLooser.Username</p>
+                            @if (TopVotersLooser == 0)
+                            {
+                                <p class="text-muted mb-0">No looser!</p>
+                            }
+                            else
+                            {
+                                <ul class="list-group">
+                                    @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersLooser))
+                                    {
+                                    <li class="list-group-item">
+                                        <small class="badge badge-danger">@del.Rank</small>&nbsp;&nbsp;@del.Username
+                                    </li>
+                                    }
+                                </ul>
+                            }
                         </div>
                     </div>
                 </div>
@@ -82,11 +108,24 @@
                     <div class="card-body">
                         <p class="text-muted mb-2">Biggest Gain of Votes</p>
                         <div class="d-flex align-items-center">
-                            <h1 class="font-weight-medium mb-2 text-success">@TopVotesGainer.VotesDailyChange</h1>
+                            <h1 class="font-weight-medium mb-2 text-success">@TopVotesGainer.ToString("N0")</h1>
                         </div>
                         <div class="d-flex align-items-center">
-                            <div class="bg-success dot-indicator"></div>
-                            <p class="text-muted mb-0">@TopVotesGainer.Username</p>
+                            @if (TopVotesGainer == 0)
+                            {
+                                <p class="text-muted mb-0">No gainer!</p>
+                            }
+                            else
+                            {
+                                <ul class="list-group">
+                                    @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesGainer))
+                                    {
+                                    <li class="list-group-item">
+                                        <small class="badge badge-success">@del.Rank</small>&nbsp;&nbsp;@del.Username
+                                    </li>
+                                    }
+                                </ul>
+                            }
                         </div>
                     </div>
                 </div>
@@ -94,13 +133,28 @@
             <div class="col-lg-3 grid-margin stretch-card">
                 <div class="box card aligner-wrapper">
                     <div class="card-body">
-                        <p class="text-muted mb-2">Bigget Lost of votes</p>
+                        <p class="text-muted mb-2">Biggest Lost of votes</p>
                         <div class="d-flex align-items-center">
-                            <h1 class="font-weight-medium mb-2 text-danger">@TopVotesLooser.VotesDailyChange</h1>
+                            <h1 class="font-weight-medium mb-2 text-danger">@TopVotesLooser.ToString("N0")</h1>
                         </div>
                         <div class="d-flex align-items-center">
                             <div class="bg-success dot-indicator"></div>
-                            <p class="mb-1">@TopVotesLooser.Username</p>
+
+                            @if (TopVotesLooser == 0)
+                            {
+                                <p class="text-muted mb-0">No Looser!</p>
+                            }
+                            else
+                            {
+                                <ul class="list-group">
+                                    @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesLooser))
+                                    {
+                                    <li class="list-group-item">
+                                        <small class="badge badge-danger">@del.Rank</small>&nbsp;&nbsp;@del.Username
+                                    </li>
+                                    }
+                                </ul>
+                            }
                         </div>
                     </div>
                 </div>
