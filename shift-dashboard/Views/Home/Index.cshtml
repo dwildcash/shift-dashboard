@@ -67,7 +67,7 @@
                                     @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersGainer))
                                     {
                                         <p>
-                                            @del.Username&nbsp;<small class="badge badge-success">+@del.Rank</small>
+                                            @del.Username&nbsp;<small class="badge badge-success">@del.Rank</small>
                                         </p>
                                     }
                                 }
