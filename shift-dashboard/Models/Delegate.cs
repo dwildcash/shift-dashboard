@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
+
 namespace shift_dashboard.Models
 {
     [Index(nameof(Address), Name = "Index_Address", IsUnique = true)]
@@ -73,7 +74,25 @@ namespace shift_dashboard.Models
 
                     return this.DelegateStats.Where(x => x.Date >= StatsDate).OrderBy(p => p.Date) ?? null;
                 }
-                catch (Exception e)
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
+
+        public IEnumerable<long> VotePerDay
+        {
+            get
+            {
+                try
+                {
+                    DateTime StatsDate = DateTime.Now.AddDays(-30);
+                    var result =  this.DelegateStats.Where(x => x.Date >= StatsDate).GroupBy(i => new { i.Date.Year, i.Date.Month, i.Date.Day }).Select(g => Convert.ToInt64(g.Average(p=>p.TotalVotes)/100000000));
+                    return result;
+                }
+                catch (Exception)
                 {
                     return null;
                 }

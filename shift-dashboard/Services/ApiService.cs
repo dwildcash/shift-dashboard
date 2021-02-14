@@ -114,7 +114,7 @@ namespace shift_dashboard.Services
         /// <returns></returns>
         public async Task<Delegate[]> GetDelegatesFromDb()
         {
-            return await _dbcontext.Delegates.Include(y=>y.DelegateStats.Where(x=>x.Date >= DateTime.Now.AddDays(-1)).OrderByDescending(s=>s.Id)).OrderBy(x => x.Rank).ToArrayAsync();      
+            return await _dbcontext.Delegates.Include(y=>y.DelegateStats.Where(x=>x.Date >= DateTime.Now.AddDays(-30)).OrderByDescending(s=>s.Id)).OrderBy(x => x.Rank).ToArrayAsync();      
         }
 
         /// <summary>

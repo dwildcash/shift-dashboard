@@ -11,6 +11,37 @@
 
 <title>@dashboardconfig.ApplicationName</title>
 
+@section Scripts
+    {
+
+    <script type="text/javascript">
+        $(function () {
+            $('.inlinesparkline').sparkline('html', { type: 'line', disableHiddenCheck: true, height: '20px', width: '100px' });
+        });
+
+        $(document).ready(function () {
+            $('#delegateTable').DataTable({
+                "pageLength": 50,
+                "order": [[0, "asc"]],
+                "autoWidth": true,
+                responsive: {
+                    details: {
+                        type: 'column',
+                        target: -1,
+                        display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                         renderer: $.fn.dataTable.Responsive.renderer.tableAll()
+                    }
+                },
+                columnDefs: [{
+                    className: 'control',
+                    orderable: false,
+                    targets: -1
+                }]
+            });
+        });
+    </script>
+}
+
 @functions{
 
     // return the account name of previous delegate
@@ -34,7 +65,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h5>Dashboard version 0.2.2</h5>
+                    <h5>Dashboard version 0.2.3</h5>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -52,7 +83,7 @@
             <div class="col-lg-3 grid-margin stretch-card">
                 <div class="box card aligner-wrapper">
                     <div class="card-body">
-                        <p class="text-muted mb-2">Biggest Gain of Voters</p>
+                        <p class="text-muted mb-2">Today Biggest Gain of Voters</p>
                         <div class="row">
                             <div class="col-6">
                                 <h1 class="font-weight-medium mb-2 text-success">+@TopVotersGainer</h1>
@@ -67,7 +98,7 @@
                                     @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersGainer))
                                     {
                                         <p>
-                                            @del.Username&nbsp;<small class="badge badge-success">@del.Rank</small>
+                                            <small class="badge badge-success">@del.Rank</small>&nbsp;@del.Username
                                         </p>
                                     }
                                 }
@@ -79,12 +110,11 @@
             <div class="col-lg-3 grid-margin stretch-card">
                 <div class="box card aligner-wrapper">
                     <div class="card-body">
-                        <p class="text-muted mb-2">Biggest Loss of Voters</p>
+                        <p class="text-muted mb-2">Today Biggest Loss of Voters</p>
                         <div class="row">
                             <div class="col-6">
-                                <h1 class="font-weight-medium mb-2 text-danger">@TopVotersLooser</h1>
+                                <h1 class="font-weight-medium mb-2 text-danger justify-content-center">@TopVotersLooser</h1>
                             </div>
-
                             <div class="col-6">
                                 @if (TopVotersLooser == 0)
                                 {
@@ -95,7 +125,7 @@
                                     @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersLooser))
                                     {
                                         <p>
-                                            @del.Username&nbsp;<small class="badge badge-danger">@del.Rank</small>
+                                            <small class="badge badge-danger">@del.Rank</small>&nbsp;@del.Username
                                         </p>
                                     }
                                 }
@@ -107,9 +137,9 @@
             <div class="col-lg-3 grid-margin stretch-card">
                 <div class="box card aligner-wrapper">
                     <div class="card-body">
-                        <p class="text-muted mb-2">Biggest Gain of Votes</p>
+                        <p class="text-muted mb-2">Today Biggest Gain of Votes</p>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-6 justify-content-center">
                                 <h1 class="font-weight-medium mb-2 text-success">@TopVotesGainer.ToString("N0")</h1>
                             </div>
                             <div class="col-6">
@@ -122,7 +152,7 @@
                                     @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesGainer))
                                     {
                                         <p>
-                                            @del.Username &nbsp;<small class="badge badge-success">@del.Rank</small>
+                                            <small class="badge badge-success">@del.Rank</small>&nbsp;@del.Username
                                         </p>
                                     }
                                 }
@@ -134,10 +164,10 @@
             <div class="col-lg-3 grid-margin stretch-card">
                 <div class="box card aligner-wrapper">
                     <div class="card-body">
-                        <p class="text-muted mb-2">Biggest Loss of votes</p>
+                        <p class="text-muted mb-2">Today Biggest Loss of votes</p>
                         <div class="row">
                             <div class="col-6">
-                                <h1 class="font-weight-medium mb-2 text-danger">@TopVotesLooser.ToString("N0")</h1>
+                                <h1 class="font-weight-medium mb-2 text-danger justify-content-center">@TopVotesLooser.ToString("N0")</h1>
                             </div>
                             <div class="col-6">
                                 <div class="bg-success dot-indicator"></div>
@@ -151,7 +181,7 @@
                                     @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesLooser))
                                     {
                                         <p>
-                                            @del.Username &nbsp;<small class="badge badge-danger">@del.Rank</small>&nbsp;&nbsp;
+                                            <small class="badge badge-danger">@del.Rank</small>&nbsp;@del.Username
                                         </p>
                                     }
                                 }
@@ -176,39 +206,37 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table data-toggle="table"
-                                   data-search="true"
-                                   data-pagination="true"
-                                   data-page-Size="25"
-                                   data-show-columns="true"
-                                   data-mobile-responsive="true">
+                            <table id="delegateTable" class="table display dt-responsive" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th align-middle>Rank</th>
-                                        <th align-middle class="align-middle">Username</th>
-                                        <th align-middle class="align-middle">Voters</th>
-                                        <th align-middle class="align-middle">Weight</th>
-                                        <th align-middle class="align-middle">Daily Votes Change</th>
-                                        <th align-middle class="align-middle">Votes to next Rank</th>
-                                        <th align-middle class="align-middle">Uptime</th>
+                                        <th align-middle data-priority="1">Rank</th>
+                                        <th align-middle data-priority="2">Username</th>
+                                        <th align-middle data-priority="3">Voters</th>
+                                        <th align-middle data-priority="4">Weight</th>
+                                        <th align-middle data-priority="5">Daily Votes Change</th>
+                                        <th align-middle data-priority="7">Votes to next Rank</th>
+                                        <th align-middle data-priority="6">Uptime</th>
+                                        <th align-middle data-priority="8">30 Days Trend</th>
+                                        <th align-middle data-priority="0"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var d in Model)
                                     {
                                         <tr>
-                                            <td class="align-middle">
+                                            <td class="align-middle" data-order="@d.Rank">
                                                 <h6>
-                                                    @d.Rank &nbsp; &nbsp;
-                                                    @if (d.RankDailyChange > 0)
-                                                    {
-                                                        <small class="badge badge-danger">@d.RankDailyChange</small>
-                                                    }
-                                                    else if (d.RankDailyChange < 0)
-                                                    {
-                                                        <small class="badge badge-success">@d.RankDailyChange</small>
-                                                    }
+                                                    @d.Rank
                                                 </h6>
+
+                                                @if (d.RankDailyChange > 0)
+                                                {
+                                                    <span class="badge badge-danger">@d.RankDailyChange</span>
+                                                }
+                                                else if (d.RankDailyChange < 0)
+                                                {
+                                                    <span class="badge badge-success">@d.RankDailyChange</span>
+                                                }
                                             </td>
                                             <td class="align-middle"><h6><a href="https://explorer.shiftnrg.org/address/@d.Address" target="_blank">@d.Username</a></h6></td>
                                             <td class="align-middle">
@@ -267,6 +295,12 @@
                                             {
                                                 <td align-middle class="align-middle text-muted text-warning">@d.Productivity%</td>
                                             }
+                                            <td>
+                                                <p>
+                                                    <span class="inlinesparkline">@string.Join(",", d.VotePerDay)</span>
+                                                </p>
+                                            </td>
+                                            <td></td>
                                         </tr>
                                     }
                                 </tbody>

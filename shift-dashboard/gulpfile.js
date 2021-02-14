@@ -30,10 +30,23 @@ var deps = {
         "/dist/fonts/*": "fonts",
         "/dist/css/ionicons.min.css": "css"
     },
-    "bootstrap-table": {
-        "/dist/bootstrap-table.min.js": "js",
-        "/dist/extensions/mobile/bootstrap-table-mobile.js": "js",
-        "/dist/bootstrap-table.css": "css"
+    "datatables.net": {
+        "/js/*": "js"
+    },
+    "datatables.net-bs4": {
+        "/js/*": "js",
+        "/css/*": "css"
+    },
+    "datatables.net-responsive-bs4": {
+        "/css/*": "css",
+        "/js/*": "js"
+    },
+    "datatables.net-responsive": {
+        "/js/*": "js"
+    },
+    "datatables.net-fixedheader-bs4": {
+        "/css/fixedHeader.bootstrap4.min.css": "css",
+        "/js/fixedHeader.bootstrap4.min.js": "js"
     },
     "pace-js": {
         "/pace.min.js": "js",
