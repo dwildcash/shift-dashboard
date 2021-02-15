@@ -15,9 +15,9 @@
     {
 
     <script type="text/javascript">
-        $(function () {
-            $('.inlinesparkline').sparkline('html', { type: 'line', disableHiddenCheck: true, height: '20px', width: '100px' });
-        });
+       
+
+       
 
         $(document).ready(function () {
             $('#delegateTable').DataTable({
@@ -26,15 +26,19 @@
                 "autoWidth": true,
                 responsive: {
                     details: {
-                        type: 'column',
-                        target: -1
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                            tableClass: 'ui table'
+                        })
                     }
                 },
                 columnDefs: [{
                     className: 'control',
                     orderable: false,
                     targets: -1
-                }]
+                }],
+                "fnDrawCallback": function (oSettings) {
+                    $('.inlinesparkline').sparkline('html', { type: 'line', disableHiddenCheck: true, height: '20px', width: '100px' });
+                }
             });
         });
     </script>
@@ -215,7 +219,6 @@
                                         <th align-middle data-priority="7">Votes to next Rank</th>
                                         <th align-middle data-priority="6">Uptime</th>
                                         <th align-middle data-priority="8">30 Days Trend</th>
-                                        <th align-middle data-priority="0"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -298,7 +301,6 @@
                                                     <span class="inlinesparkline">@string.Join(",", d.VotePerDay)</span>
                                                 </p>
                                             </td>
-                                            <td></td>
                                         </tr>
                                     }
                                 </tbody>
