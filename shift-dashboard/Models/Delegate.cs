@@ -89,7 +89,7 @@ namespace shift_dashboard.Models
                 try
                 {
                     DateTime StatsDate = DateTime.Now.AddDays(-30);
-                    var result =  this.DelegateStats.Where(x => x.Date >= StatsDate).GroupBy(i => new { i.Date.Year, i.Date.Month, i.Date.Day }).Select(g => Convert.ToInt64(g.Average(p=>p.TotalVotes)/100000000));
+                    var result =  this.DelegateStats.Where(x => x.Date >= StatsDate).GroupBy(i => new { i.Date.Year, i.Date.Month, i.Date.Day }).OrderBy(i=>i.Key.Year).ThenBy(i=>i.Key.Month).ThenBy(i=>i.Key.Day).Select(g => Convert.ToInt64(g.Average(p=>p.TotalVotes)/100000000));
                     return result;
                 }
                 catch (Exception)
