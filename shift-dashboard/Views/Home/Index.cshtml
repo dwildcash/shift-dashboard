@@ -15,30 +15,21 @@
     {
 
     <script type="text/javascript">
-       
-
-       
+        $(function () {
+            $('.inlinesparkline').sparkline('html', { type: 'line', disableHiddenCheck: true, height: '20px', width: '100px' });
+        });
 
         $(document).ready(function () {
             $('#delegateTable').DataTable({
-                "pageLength": 50,
+                "pageLength": 51,
                 "order": [[0, "asc"]],
                 "autoWidth": true,
-                responsive: {
-                    details: {
-                        renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                            tableClass: 'ui table'
-                        })
-                    }
-                },
-                columnDefs: [{
+
+                "columnDefs": [{
                     className: 'control',
                     orderable: false,
                     targets: -1
-                }],
-                "fnDrawCallback": function (oSettings) {
-                    $('.inlinesparkline').sparkline('html', { type: 'line', disableHiddenCheck: true, height: '20px', width: '100px' });
-                }
+                }]
             });
         });
     </script>
@@ -82,60 +73,51 @@
 
     <section class="content">
         <div class="row col-12">
-            <div class="col-lg-3 grid-margin stretch-card">
-                <div class="box card aligner-wrapper">
-                    <div class="card-body">
-                        <p class="text-muted mb-2">Today Biggest Gain of Voters</p>
-                        <div class="row">
-                            <div class="col-6">
-                                <h1 class="font-weight-medium mb-2 text-success">+@TopVotersGainer</h1>
-                            </div>
-                            <div class="col-6">
-                                @if (TopVotersGainer == 0)
-                                {
-                                    <p class="text-muted mb-0">No gainer!</p>
-                                }
-                                else
-                                {
+            @if (TopVotersGainer != 0)
+            {
+                <div class="col-lg-3 grid-margin stretch-card">
+                    <div class="box card aligner-wrapper">
+
+                        <div class="card-body">
+                            <p class="text-muted mb-2">Today Biggest Gain of Voters</p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h1 class="font-weight-medium mb-2 text-success">+@TopVotersGainer</h1>
+                                </div>
+                                <div class="col-6">
                                     @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersGainer))
                                     {
-                                        <p>
-                                            <small class="badge badge-success">@del.Rank</small>&nbsp;@del.Username
-                                        </p>
+                                        <small class="badge badge-success">@del.Rank</small> @del.Username
                                     }
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 grid-margin stretch-card">
-                <div class="box card aligner-wrapper">
-                    <div class="card-body">
-                        <p class="text-muted mb-2">Today Biggest Loss of Voters</p>
-                        <div class="row">
-                            <div class="col-6">
-                                <h1 class="font-weight-medium mb-2 text-danger justify-content-center">@TopVotersLooser</h1>
-                            </div>
-                            <div class="col-6">
-                                @if (TopVotersLooser == 0)
-                                {
-                                    <p class="text-muted mb-0">No looser!</p>
-                                }
-                                else
-                                {
+            }
+            @if (TopVotersLooser != 0)
+            {
+                <div class="col-lg-3 grid-margin stretch-card">
+                    <div class="box card aligner-wrapper">
+                        <div class="card-body">
+                            <p class="text-muted mb-2">Today Biggest Loss of Voters</p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h1 class="font-weight-medium mb-2 text-danger justify-content-center">@TopVotersLooser</h1>
+                                </div>
+                                <div class="col-6">
                                     @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersLooser))
                                     {
                                         <p>
                                             <small class="badge badge-danger">@del.Rank</small>&nbsp;@del.Username
                                         </p>
                                     }
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
             <div class="col-lg-3 grid-margin stretch-card">
                 <div class="box card aligner-wrapper">
                     <div class="card-body">
@@ -203,7 +185,7 @@
             <div class="col-12">
                 <div class="box card">
                     <div class="card-header">
-                        <h3 class="card-title">Shift Delegates Stats</h3>
+                        <h3 class="card-title">Shift Daily Delegates Stats</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -211,14 +193,15 @@
                             <table id="delegateTable" class="table display dt-responsive" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th align-middle data-priority="1">Rank</th>
-                                        <th align-middle data-priority="2">Username</th>
-                                        <th align-middle data-priority="3">Voters</th>
-                                        <th align-middle data-priority="4">Weight</th>
-                                        <th align-middle data-priority="5">Daily Votes Change</th>
+                                        <th align-middle data-priority="2">Rank</th>
+                                        <th align-middle data-priority="0">Username</th>
+                                        <th align-middle data-priority="4">Voters</th>
+                                        <th align-middle data-priority="3">Weight</th>
+                                        <th align-middle data-priority="5">Votes Change</th>
                                         <th align-middle data-priority="7">Votes to next Rank</th>
                                         <th align-middle data-priority="6">Uptime</th>
-                                        <th align-middle data-priority="8">30 Days Trend</th>
+                                        <th align-middle data-priority="1">Monthly Trend</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -229,7 +212,6 @@
                                                 <h6>
                                                     @d.Rank
                                                 </h6>
-
                                                 @if (d.RankDailyChange > 0)
                                                 {
                                                     <span class="badge badge-danger">@d.RankDailyChange</span>
@@ -297,9 +279,10 @@
                                                 <td align-middle class="align-middle text-muted text-warning">@d.Productivity%</td>
                                             }
                                             <td>
-                                                <p>
-                                                    <span class="inlinesparkline">@string.Join(",", d.VotePerDay)</span>
-                                                </p>
+                                                <span class="inlinesparkline">@string.Join(",", d.VotePerDay)</span>
+                                            </td>
+                                            <td>
+
                                             </td>
                                         </tr>
                                     }
