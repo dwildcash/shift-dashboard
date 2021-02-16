@@ -16,7 +16,7 @@
 
     <script type="text/javascript">
         $(function () {
-            $('.inlinesparkline_red').sparkline('html', { type: 'line', fillColor:'red', disableHiddenCheck: true, height: '20px', width: '75px' });
+            $('.inlinesparkline_red').sparkline('html', { type: 'line', fillColor: 'red', disableHiddenCheck: true, height: '20px', width: '75px' });
         });
         $(function () {
             $('.inlinesparkline').sparkline('html', { type: 'line', disableHiddenCheck: true, height: '20px', width: '75px' });
@@ -61,7 +61,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h5>Dashboard version 0.2.3</h5>
+                    <h5>Dashboard version 0.2.4</h5>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -145,32 +145,31 @@
                     </div>
                 </div>
             }
-                @if (TopVotesLooser != 0)
-                {
-                    <div class="col-lg-3 grid-margin stretch-card">
-                        <div class="box card aligner-wrapper">
-                            <div class="card-body">
-                                <p class="text-muted mb-2">Today Biggest Loss of votes</p>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h1 class="font-weight-medium mb-2 text-danger justify-content-center">@TopVotesLooser.ToString("N0")</h1>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="bg-success dot-indicator"></div>
-                                        @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesLooser))
-                                        {
-                                            <p>
-                                                <small class="badge badge-danger">@del.Rank</small>&nbsp;@del.Username
-                                            </p>
-                                        }
-                                        }
-                                    </div>
+
+            @if (TopVotesLooser != 0)
+            {
+                <div class="col-lg-3 grid-margin stretch-card">
+                    <div class="box card aligner-wrapper">
+                        <div class="card-body">
+                            <p class="text-muted mb-2">Today Biggest Loss of votes</p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h1 class="font-weight-medium mb-2 text-danger justify-content-center">@TopVotesLooser.ToString("N0")</h1>
+                                </div>
+                                <div class="col-6">
+                                    <div class="bg-success dot-indicator"></div>
+                                    @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesLooser))
+                                    {
+                                        <p>
+                                            <small class="badge badge-danger">@del.Rank</small>&nbsp;@del.Username
+                                        </p>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                }
+            }
     </section>
 
     <section class="content">
@@ -196,7 +195,7 @@
                                         <th align-middle data-priority="5">Votes Change</th>
                                         <th align-middle data-priority="7">Votes to next Rank</th>
                                         <th align-middle data-priority="6">Uptime</th>
-                                        <th align-middle data-priority="1">Monthly Trend</th>
+                                        <th align-middle data-priority="1">30days Trend</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -274,19 +273,21 @@
                                             {
                                                 <td align-middle class="align-middle text-muted text-warning">@d.Productivity%</td>
                                             }
-                                        <td>
-                                            @if (d.VotePerDay.First() <= d.VotePerDay.Last())
-                                            {
+                                            <td>
+
+                                                @if (d.VotePerDay.First() <= d.VotePerDay.Last())
+                                                {
                                                 <span class="inlinesparkline"><!-- @string.Join(",", d.VotePerDay)--></span>
+
                                             }
                                             else
                                             {
-                                            <span class="inlinesparkline_red"><!-- @string.Join(",", d.VotePerDay)--></span>
+                                                <span class="inlinesparkline_red"><!-- @string.Join(",", d.VotePerDay)--></span>
                                             }
-                                        </td>
-                                            <td></td>
-                                        </tr>
-                                    }
+</td>
+<td></td>
+</tr>
+}
                                 </tbody>
                             </table>
                         </div>
