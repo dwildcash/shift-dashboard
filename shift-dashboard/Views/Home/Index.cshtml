@@ -16,10 +16,11 @@
 
     <script type="text/javascript">
         $(function () {
-            $('.inlinesparkline_red').sparkline('html', { type: 'line', fillColor: 'red', disableHiddenCheck: true, height: '20px', width: '75px' });
+            $('.inlinesparkline_red').sparkline('html', { type: 'line', fillColor: 'red', disableHiddenCheck: true, height: '20px', width: '60px' });
         });
+
         $(function () {
-            $('.inlinesparkline').sparkline('html', { type: 'line', disableHiddenCheck: true, height: '20px', width: '75px' });
+            $('.inlinesparkline').sparkline('html', { type: 'line', disableHiddenCheck: true, height: '20px', width: '60px' });
         });
 
         $(document).ready(function () {
@@ -188,106 +189,103 @@
                             <table id="delegateTable" class="table display dt-responsive" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th align-middle data-priority="2">Rank</th>
+                                        <th align-middle data-priority="1">Rank</th>
                                         <th align-middle data-priority="0">Username</th>
                                         <th align-middle data-priority="4">Voters</th>
                                         <th align-middle data-priority="3">Weight</th>
-                                        <th align-middle data-priority="5">Votes Change</th>
+                                        <th align-middle data-priority="2">30d Trend</th>
+                                        <th align-middle data-priority="1">Uptime</th>
+                                        <th align-middle data-priority="6">Votes Change</th>
                                         <th align-middle data-priority="7">Votes to next Rank</th>
-                                        <th align-middle data-priority="6">Uptime</th>
-                                        <th align-middle data-priority="1">30d Trend</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var d in Model)
                                     {
-                                        <tr>
-                                            <td class="align-middle" data-order="@d.Rank">
-                                                <h6>
-                                                    @d.Rank
-                                                </h6>
-                                                @if (d.RankDailyChange > 0)
-                                                {
-                                                    <span class="badge badge-danger">@d.RankDailyChange</span>
-                                                }
-                                                else if (d.RankDailyChange < 0)
-                                                {
-                                                    <span class="badge badge-success">@d.RankDailyChange</span>
-                                                }
-                                            </td>
-                                            <td class="align-middle"><h6><a href="https://explorer.shiftnrg.org/address/@d.Address" target="_blank">@d.Username</a></h6></td>
-                                            <td class="align-middle">
-                                                <h6>
-                                                    @d.NbVoters
-
-                                                    @if (d.VotersDailyChange > 0)
-                                                    {
-                                                        <small class="badge badge-success">+@d.VotersDailyChange</small>
-                                                    }
-                                                    else if (d.VotersDailyChange < 0)
-                                                    {
-                                                        <small class="badge badge-danger">@d.VotersDailyChange</small>
-                                                    }
-                                                </h6>
-                                            </td>
-                                            <td class="align-middle"><h6>@((long.Parse(d.Vote) / 100000000).ToString("N0")) <small class="text-muted"> (@d.Approval%)</small></h6></td>
-
-                                            @if (d.VotesDailyChange >= 0)
+                                    <tr>
+                                        <td class="align-middle" data-order="@d.Rank">
+                                            <h6>
+                                                @d.Rank
+                                            </h6>
+                                            @if (d.RankDailyChange > 0)
                                             {
-                                                <td align-middle class="align-middle text-success">@(d.VotesDailyChange.ToString("N0"))</td>
+                                                <span class="badge badge-danger">@d.RankDailyChange</span>
                                             }
-                                            else
+                                            else if (d.RankDailyChange < 0)
                                             {
-                                                <td align-middle class="align-middle text-danger">@(d.VotesDailyChange.ToString("N0"))</td>
+                                                <span class="badge badge-success">@d.RankDailyChange</span>
                                             }
+                                        </td>
+                                        <td class="align-middle"><h6><a href="https://explorer.shiftnrg.org/address/@d.Address" target="_blank">@d.Username</a></h6></td>
+                                        <td class="align-middle">
+                                            <h6>
+                                                @d.NbVoters
 
-                                            @{
-                                                long nextrank = 0;
-                                                var PreviousDelegate = GetDelegateByRank(d.Rank - 1);
-
-                                                long PreviousDelegateVotes = 0;
-
-                                                if (PreviousDelegate != null)
+                                                @if (d.VotersDailyChange > 0)
                                                 {
-                                                    PreviousDelegateVotes = long.Parse(PreviousDelegate.Vote);
+                                                    <small class="badge badge-success">+@d.VotersDailyChange</small>
                                                 }
-
-                                                if (d.Rank == 1)
+                                                else if (d.VotersDailyChange < 0)
                                                 {
-                                                    nextrank = 0;
+                                                    <small class="badge badge-danger">@d.VotersDailyChange</small>
                                                 }
-                                                else if (d.Rank > 1)
-                                                {
-                                                    nextrank = (PreviousDelegateVotes - long.Parse(d.Vote)) / 100000000;
-                                                }
-                                            }
-
-                                            <td align-middle class="align-middle text-muted">@nextrank.ToString("N0")</td>
-
-                                            @if (d.Productivity > 98)
+                                            </h6>
+                                        </td>
+                                        <td class="align-middle"><h6>@((long.Parse(d.Vote) / 100000000).ToString("N0")) <small class="text-muted"> (@d.Approval%)</small></h6></td>
+                                        <td>
+                                            @if (d.VotePerDay.First() <= d.VotePerDay.Last())
                                             {
-                                                <td align-middle class="align-middle text-muted">@d.Productivity%</td>
-                                            }
-                                            else
-                                            {
-                                                <td align-middle class="align-middle text-muted text-warning">@d.Productivity%</td>
-                                            }
-                                            <td>
-
-                                                @if (d.VotePerDay.First() <= d.VotePerDay.Last())
-                                                {
                                                 <span class="inlinesparkline"><!-- @string.Join(",", d.VotePerDay)--></span>
-
                                             }
                                             else
                                             {
                                                 <span class="inlinesparkline_red"><!-- @string.Join(",", d.VotePerDay)--></span>
                                             }
-</td>
-<td></td>
-</tr>
-}
+                                        </td>
+                                        @if (d.Productivity > 98)
+                                        {
+                                            <td align-middle class="align-middle text-muted">@d.Productivity%</td>
+                                        }
+                                        else
+                                        {
+                                            <td align-middle class="align-middle text-muted text-warning">@d.Productivity%</td>
+                                        }
+
+                                        @if (d.VotesDailyChange >= 0)
+                                        {
+                                            <td align-middle class="align-middle text-success">@(d.VotesDailyChange.ToString("N0"))</td>
+                                        }
+                                        else
+                                        {
+                                            <td align-middle class="align-middle text-danger">@(d.VotesDailyChange.ToString("N0"))</td>
+                                        }
+
+                                        @{
+                                            long nextrank = 0;
+                                            var PreviousDelegate = GetDelegateByRank(d.Rank - 1);
+
+                                            long PreviousDelegateVotes = 0;
+
+                                            if (PreviousDelegate != null)
+                                            {
+                                                PreviousDelegateVotes = long.Parse(PreviousDelegate.Vote);
+                                            }
+
+                                            if (d.Rank == 1)
+                                            {
+                                                nextrank = 0;
+                                            }
+                                            else if (d.Rank > 1)
+                                            {
+                                                nextrank = (PreviousDelegateVotes - long.Parse(d.Vote)) / 100000000;
+                                            }
+                                        }
+
+                                        <td align-middle class="align-middle text-muted">@nextrank.ToString("N0")</td>
+                                        <td></td>
+                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
