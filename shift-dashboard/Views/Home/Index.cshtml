@@ -16,7 +16,10 @@
 
     <script type="text/javascript">
         $(function () {
-            $('.inlinesparkline').sparkline('html', { type: 'line', disableHiddenCheck: true, height: '20px', width: '100px' });
+            $('.inlinesparkline_red').sparkline('html', { type: 'line', fillColor:'red', disableHiddenCheck: true, height: '20px', width: '75px' });
+        });
+        $(function () {
+            $('.inlinesparkline').sparkline('html', { type: 'line', disableHiddenCheck: true, height: '20px', width: '75px' });
         });
 
         $(document).ready(function () {
@@ -77,7 +80,6 @@
             {
                 <div class="col-lg-3 grid-margin stretch-card">
                     <div class="box card aligner-wrapper">
-
                         <div class="card-body">
                             <p class="text-muted mb-2">Today Biggest Gain of Voters</p>
                             <div class="row">
@@ -95,6 +97,7 @@
                     </div>
                 </div>
             }
+
             @if (TopVotersLooser != 0)
             {
                 <div class="col-lg-3 grid-margin stretch-card">
@@ -118,63 +121,56 @@
                     </div>
                 </div>
             }
-            <div class="col-lg-3 grid-margin stretch-card">
-                <div class="box card aligner-wrapper">
-                    <div class="card-body">
-                        <p class="text-muted mb-2">Today Biggest Gain of Votes</p>
-                        <div class="row">
-                            <div class="col-6 justify-content-center">
-                                <h1 class="font-weight-medium mb-2 text-success">@TopVotesGainer.ToString("N0")</h1>
-                            </div>
-                            <div class="col-6">
-                                @if (TopVotesGainer == 0)
-                                {
-                                    <p class="text-muted mb-0">No gainer!</p>
-                                }
-                                else
-                                {
+
+            @if (TopVotesGainer != 0)
+            {
+                <div class="col-lg-3 grid-margin stretch-card">
+                    <div class="box card aligner-wrapper">
+                        <div class="card-body">
+                            <p class="text-muted mb-2">Today Biggest Gain of Votes</p>
+                            <div class="row">
+                                <div class="col-6 justify-content-center">
+                                    <h1 class="font-weight-medium mb-2 text-success">@TopVotesGainer.ToString("N0")</h1>
+                                </div>
+                                <div class="col-6">
                                     @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesGainer))
                                     {
                                         <p>
                                             <small class="badge badge-success">@del.Rank</small>&nbsp;@del.Username
                                         </p>
                                     }
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 grid-margin stretch-card">
-                <div class="box card aligner-wrapper">
-                    <div class="card-body">
-                        <p class="text-muted mb-2">Today Biggest Loss of votes</p>
-                        <div class="row">
-                            <div class="col-6">
-                                <h1 class="font-weight-medium mb-2 text-danger justify-content-center">@TopVotesLooser.ToString("N0")</h1>
-                            </div>
-                            <div class="col-6">
-                                <div class="bg-success dot-indicator"></div>
-
-                                @if (TopVotesLooser == 0)
-                                {
-                                    <p class="text-muted mb-0">No Looser!</p>
-                                }
-                                else
-                                {
-                                    @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesLooser))
-                                    {
-                                        <p>
-                                            <small class="badge badge-danger">@del.Rank</small>&nbsp;@del.Username
-                                        </p>
-                                    }
-                                }
+            }
+                @if (TopVotesLooser != 0)
+                {
+                    <div class="col-lg-3 grid-margin stretch-card">
+                        <div class="box card aligner-wrapper">
+                            <div class="card-body">
+                                <p class="text-muted mb-2">Today Biggest Loss of votes</p>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h1 class="font-weight-medium mb-2 text-danger justify-content-center">@TopVotesLooser.ToString("N0")</h1>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="bg-success dot-indicator"></div>
+                                        @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesLooser))
+                                        {
+                                            <p>
+                                                <small class="badge badge-danger">@del.Rank</small>&nbsp;@del.Username
+                                            </p>
+                                        }
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+                }
     </section>
 
     <section class="content">
@@ -278,12 +274,17 @@
                                             {
                                                 <td align-middle class="align-middle text-muted text-warning">@d.Productivity%</td>
                                             }
-                                            <td>
-                                                <span class="inlinesparkline">@string.Join(",", d.VotePerDay)</span>
-                                            </td>
-                                            <td>
-
-                                            </td>
+                                        <td>
+                                            @if (d.VotePerDay.First() <= d.VotePerDay.Last())
+                                            {
+                                                <span class="inlinesparkline"><!-- @string.Join(",", d.VotePerDay)--></span>
+                                            }
+                                            else
+                                            {
+                                            <span class="inlinesparkline_red"><!-- @string.Join(",", d.VotePerDay)--></span>
+                                            }
+                                        </td>
+                                            <td></td>
                                         </tr>
                                     }
                                 </tbody>
