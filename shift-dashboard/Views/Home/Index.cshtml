@@ -194,10 +194,10 @@
                                         <th align-middle data-priority="4">Voters</th>
                                         <th align-middle data-priority="3">Weight</th>
                                         <th align-middle data-priority="2">30d Trend</th>
-                                        <th align-middle data-priority="1">Uptime</th>
-                                        <th align-middle data-priority="6">Votes Change</th>
-                                        <th align-middle data-priority="7">Votes to next Rank</th>
-                                        <th></th>
+                                        <th align-middle data-priority="5">Uptime</th>
+                                        <th align-middle data-priority="7">Votes Change</th>
+                                        <th align-middle data-priority="6">Votes to next Rank</th>
+ 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -237,11 +237,11 @@
                                         <td>
                                             @if (d.VotePerDay.First() <= d.VotePerDay.Last())
                                             {
-                                                <span class="inlinesparkline"><!-- @string.Join(",", d.VotePerDay)--></span>
+                                                <span class="inlinesparkline">@string.Join(",", d.VotePerDay)</span>
                                             }
                                             else
                                             {
-                                                <span class="inlinesparkline_red"><!-- @string.Join(",", d.VotePerDay)--></span>
+                                                <span class="inlinesparkline_red">@string.Join(",", d.VotePerDay)</span>
                                             }
                                         </td>
                                         @if (d.Productivity > 98)
@@ -284,7 +284,6 @@
                                         }
 
                                         <td align-middle class="align-middle text-muted">@nextrank.ToString("N0")</td>
-                                        <td></td>
                                     </tr>
                                     }
                                 </tbody>
