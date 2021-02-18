@@ -210,15 +210,16 @@
                                         <td class="align-middle" data-order="@d.Rank">
                                             <h6>
                                                 @d.Rank
+
+                                                @if (d.RankDailyChange > 0)
+                                                {
+                                                    <span class="badge badge-danger">@d.RankDailyChange</span>
+                                                }
+                                                else if (d.RankDailyChange < 0)
+                                                {
+                                                    <span class="badge badge-success">@d.RankDailyChange</span>
+                                                }
                                             </h6>
-                                            @if (d.RankDailyChange > 0)
-                                            {
-                                                <span class="badge badge-danger">@d.RankDailyChange</span>
-                                            }
-                                            else if (d.RankDailyChange < 0)
-                                            {
-                                                <span class="badge badge-success">@d.RankDailyChange</span>
-                                            }
                                         </td>
                                         <td class="align-middle"><h6><a href="https://explorer.shiftnrg.org/address/@d.Address" target="_blank">@d.Username</a></h6></td>
                                         
