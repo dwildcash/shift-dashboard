@@ -62,7 +62,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h5>Dashboard version 0.2.4</h5>
+                    <h5>Dashboard version 0.2.5</h5>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -90,7 +90,9 @@
                                 <div class="col-6">
                                     @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersGainer))
                                     {
-                                        <small class="badge badge-success">@del.Rank</small> @del.Username
+                                        <p>
+                                        <small class="badge badge-pill badge-success">@del.Rank</small>&nbsp;<small class="text-muted">@del.Username</small>
+                                        </p>
                                     }
                                 </div>
                             </div>
@@ -112,9 +114,9 @@
                                 <div class="col-6">
                                     @foreach (var del in Model.Where(x => x.VotersDailyChange == TopVotersLooser))
                                     {
-                                        <p>
-                                            <small class="badge badge-danger">@del.Rank</small>&nbsp;@del.Username
-                                        </p>
+                                    <p>
+                                        <small class="badge badge-pill badge-danger">@del.Rank</small>&nbsp;<small class="text-muted">@del.Username</small>
+                                    </p>
                                     }
                                 </div>
                             </div>
@@ -136,9 +138,9 @@
                                 <div class="col-6">
                                     @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesGainer))
                                     {
-                                        <p>
-                                            <small class="badge badge-success">@del.Rank</small>&nbsp;@del.Username
-                                        </p>
+                                    <p>
+                                        <small class="badge badge-pill badge-success">@del.Rank</small>&nbsp;<small class="text-muted">@del.Username</small>
+                                    </p>
                                     }
                                 </div>
                             </div>
@@ -161,9 +163,9 @@
                                     <div class="bg-success dot-indicator"></div>
                                     @foreach (var del in Model.Where(x => x.VotesDailyChange == TopVotesLooser))
                                     {
-                                        <p>
-                                            <small class="badge badge-danger">@del.Rank</small>&nbsp;@del.Username
-                                        </p>
+                                <p>
+                                    <small class="badge badge-pill badge-danger">@del.Rank</small>&nbsp;<small class="text-muted">@del.Username</small>
+                                </p>
                                     }
                                 </div>
                             </div>
@@ -171,6 +173,7 @@
                     </div>
                 </div>
             }
+        </div>
     </section>
 
     <section class="content">
@@ -195,8 +198,8 @@
                                         <th align-middle data-priority="3">Weight</th>
                                         <th align-middle data-priority="2">30d Trend</th>
                                         <th align-middle data-priority="5">Uptime</th>
-                                        <th align-middle data-priority="7">Votes Change</th>
-                                        <th align-middle data-priority="6">Votes to next Rank</th>
+                                        <th align-middle data-priority="6">Votes Change</th>
+                                        <th align-middle data-priority="7">Votes to next Rank</th>
  
                                     </tr>
                                 </thead>
