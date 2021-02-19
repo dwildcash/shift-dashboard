@@ -77,6 +77,7 @@ gulp.task('clean', function (done) {
         'wwwroot/css/**/*',
         'wwwroot/json/**/*',
         '!wwwroot/css/jquery-ui-autocomplete.css',
+        '!wwwroot/css/custom.css',
         '!wwwroot/js/jquery-jvectormap-world-mill.js',
         '!wwwroot/js/NotificationHub.js',
         '!wwwwroot/js/NotificationUpdateTitle.js',

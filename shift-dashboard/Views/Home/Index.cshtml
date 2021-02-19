@@ -26,14 +26,7 @@
         $(document).ready(function () {
             $('#delegateTable').DataTable({
                 "pageLength": 51,
-                "order": [[0, "asc"]],
-                "autoWidth": true,
-
-                "columnDefs": [{
-                    className: 'control',
-                    orderable: false,
-                    targets: -1
-                }]
+                "order": [[0, "asc"]]
             });
         });
     </script>
@@ -62,7 +55,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h5>Dashboard version 0.2.5</h5>
+                    <h5>Dashboard version 0.2.6</h5>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -200,7 +193,6 @@
                                         <th align-middle data-priority="5">Uptime</th>
                                         <th align-middle data-priority="6">Votes Change</th>
                                         <th align-middle data-priority="7">Votes to next Rank</th>
- 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -213,11 +205,11 @@
 
                                                 @if (d.RankDailyChange > 0)
                                                 {
-                                                    <span class="badge badge-danger">@d.RankDailyChange</span>
+                                                    <span class="badge badge-pill badge-danger">@d.RankDailyChange</span>
                                                 }
                                                 else if (d.RankDailyChange < 0)
                                                 {
-                                                    <span class="badge badge-success">@d.RankDailyChange</span>
+                                                    <span class="badge badge-pill badge-success">@d.RankDailyChange</span>
                                                 }
                                             </h6>
                                         </td>
@@ -229,11 +221,11 @@
 
                                                 @if (d.VotersDailyChange > 0)
                                                 {
-                                                    <small class="badge badge-success">+@d.VotersDailyChange</small>
+                                                    <small class="badge badge-pill badge-success" >+@d.VotersDailyChange</small>
                                                 }
                                                 else if (d.VotersDailyChange < 0)
                                                 {
-                                                    <small class="badge badge-danger">@d.VotersDailyChange</small>
+                                                    <small class="badge badge-pill badge-danger">@d.VotersDailyChange</small>
                                                 }
                                             </h6>
                                         </td>
